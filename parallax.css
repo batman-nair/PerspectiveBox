@@ -1,0 +1,35 @@
+
+.parallax_box {
+    display: grid;
+    height: 100%;
+    transform-style: preserve-3d;
+    position: relative;
+    pointer-events: none;
+    /* animation: automove 4s infinite; */
+    /* perspective-origin: center; */
+}
+.parallax_box img {
+    max-width: 100%;
+    max-height: 70vh;
+    margin: auto;
+    position: absolute;
+}
+
+/*
+@keyframes automove {
+    0% {
+        transform: rotateX(20deg) rotateY(20deg);
+    }
+    25% {
+        transform: rotateX(-20deg) rotateY(20deg);
+    }
+    50% {
+        transform: rotateX(-20deg) rotateY(-20deg);
+    }
+    75% {
+        transform: rotateX(20deg) rotateY(-20deg);
+    }
+    100% {
+        transform: rotateX(20deg) rotateY(20deg);
+    }
+} */

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallax Images</title>
+    <link rel="stylesheet" href="parallax.css">
+</head>
+<body>
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        #parallax_box {
+            width: 50%;
+            margin: auto auto;
+        }
+    </style>
+    <div class="container">
+        <div id="parallax_box">
+        </div>
+    </div>
+
+   <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.7.0/Tween.js"></script>
+   <script src="parallax.js"></script>
+   <script>
+       pb = new ParallaxBox("parallax_box")
+       pb.addImage("images/6.png")
+       pb.addImage("images/5.png")
+       pb.addImage("images/4.png")
+       pb.addImage("images/3.png")
+       pb.addImage("images/2.png")
+       pb.addImage("images/1.png")
+       pb.init("mouse")
+   </script>
+</body>
+</html>
