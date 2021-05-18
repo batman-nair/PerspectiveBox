@@ -50,6 +50,9 @@ class ParallaxBox {
     }
     updateWidthRelatedStuff() {
         this.parallax_box.style.perspective = `${this.img_width * 1.5}px`
+        if (!this.parallax_box.style.perspectiveOrigin) {
+            this.parallax_box.style.perspectiveOrigin = `${this.img_width/2}px ${this.img_width/2}px`;
+        }
         this.tween.onUpdate(() => {
             var transform_x = this.img_width / 2 + (this.img_width / 2) * Math.sin(this.angles.x * Math.PI / 180)
             var transform_y = this.img_width / 2 + (this.img_width / 2) * Math.cos(this.angles.y * Math.PI / 180)
