@@ -159,18 +159,22 @@ class ParallaxBox {
                                     this.initGyroGamma = e.gamma
                                     this.isGyroInitialized = true
                                 }
-                                const MAX_ANGLE = 1
-                                var transform_x = e.beta - this.initGyroBeta
-                                transform_x = transform_x < -MAX_ANGLE? -MAX_ANGLE : transform_x
-                                transform_x = transform_x > MAX_ANGLE? MAX_ANGLE : transform_x
-                                transform_x = this.img_width/2 + this.img_width/2*(transform_x/MAX_ANGLE)
-                                var transform_y = e.gamma - this.initGyroGamma
-                                transform_y = transform_y < -MAX_ANGLE? -MAX_ANGLE : transform_y
-                                transform_y = transform_y > MAX_ANGLE? MAX_ANGLE : transform_y
-                                transform_y = this.img_width/2 + this.img_width/2*(transform_y/MAX_ANGLE)
+                                const MAX_ANGLE = 30
+                                var transform_x_angle = e.beta - this.initGyroBeta
+                                transform_x_angle = transform_x_angle < -MAX_ANGLE? -MAX_ANGLE : transform_x_angle
+                                transform_x_angle = transform_x_angle > MAX_ANGLE? MAX_ANGLE : transform_x_angle
+                                const transform_x = this.img_width/2 + (this.img_width/2)*(transform_x_angle/MAX_ANGLE)
+                                var transform_y_angle = e.gamma - this.initGyroGamma
+                                transform_y_angle = transform_y_angle < -MAX_ANGLE? -MAX_ANGLE : transform_y_angle
+                                transform_y_angle = transform_y_angle > MAX_ANGLE? MAX_ANGLE : transform_y_angle
+                                const transform_y = this.img_width/2 + (this.img_width/2)*(transform_y_angle/MAX_ANGLE)
 
                                 document.getElementById("gamma").innerHTML = e.gamma
                                 document.getElementById("beta").innerHTML = e.beta
+                                document.getElementById("initgamma").innerHTML = this.initGyroGamma
+                                document.getElementById("initbeta").innerHTML = this.initGyroBeta
+                                document.getElementById("transform_x_angle").innerHTML = transform_x_angle
+                                document.getElementById("transform_y_angle").innerHTML = transform_y_angle
                                 document.getElementById("transform_x").innerHTML = transform_x
                                 document.getElementById("transform_y").innerHTML = transform_y
                                 document.getElementById("val").innerHTML = "got val " + this.debug_count
