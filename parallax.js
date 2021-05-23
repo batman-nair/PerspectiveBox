@@ -20,6 +20,7 @@ class ParallaxBox {
         this.num_images = 0
         this.parallax_box.classList.add('parallax_box')
         this.isPressed = false
+        this.isGyroInitialized = false
     }
     addImage(img_src) {
         this.num_images += 1
@@ -152,20 +153,24 @@ class ParallaxBox {
                         console.log("got response " + response)
                         if (response == "granted") {
                             window.addEventListener("deviceorientation", (e) => {
-                                var absolute = e.absolute;
-                                var alpha = e.alpha;
-                                var beta = e.beta;
-                                var gamma = e.gamma;
-                                document.getElementById("absolute").innerHTML = absolute
-                                document.getElementById("alpha").innerHTML = alpha
-                                document.getElementById("beta").innerHTML = beta
-                                document.getElementById("gamma").innerHTML = gamma
-                                document.getElementById("val").innerHTML = "got val"
+                                if (!this.isGyroInitialized) {
+                                    this.initGyroBeta = e.beta
+                                    this.initGyroGamma = e.gamma
+                                    this.isGyroInitialized = true
+                                }
+                                const MAX_ANGLE = 20
+                                var transform_x = e.beta - this.initGyroBeta
+                                transform_x = transform_x < -MAX_ANGLE? -MAX_ANGLE : transform_x
+                                transform_x = transform_x > MAX_ANGLE? MAX_ANGLE : transform_x
+                                transform_x = this.img_width/2 + this.img_width/2*(transform_x/MAX_ANGLE)
+                                var transform_y = e.beta - this.initGyroGamma
+                                transform_y = transform_y < -MAX_ANGLE? -MAX_ANGLE : transform_y
+                                transform_y = transform_y > MAX_ANGLE? MAX_ANGLE : transform_y
+                                transform_y = this.img_width/2 + this.img_width/2*(transform_y/MAX_ANGLE)
+
+                                this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
                             }, true);
                         }
-                        window.addEventListener("deviceorientation", (e) => {
-                            document.getElementById("val").innerHTML = "got second"
-                        })
                     })
                     .catch(console.log)
             } else {
