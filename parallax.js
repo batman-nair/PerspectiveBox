@@ -177,7 +177,7 @@ class ParallaxBox {
                                 // document.getElementById("transform_y_angle").innerHTML = transform_y_angle
                                 // document.getElementById("transform_x").innerHTML = transform_x
                                 // document.getElementById("transform_y").innerHTML = transform_y
-                                // document.getElementById("val").innerHTML = "got val " + this.debug_count
+                                document.getElementById("val").innerHTML = "got val " + this.debug_count
 
                                 this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
                                 this.parallax_box.style.transition = '0s'
