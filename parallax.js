@@ -160,11 +160,11 @@ class ParallaxBox {
                                     this.isGyroInitialized = true
                                 }
                                 const MAX_ANGLE = 40
-                                var transform_x_angle = e.gamma - this.initGyroGamma
+                                var transform_x_angle = this.initGyroGamma - e.gamma
                                 transform_x_angle = transform_x_angle < -MAX_ANGLE? -MAX_ANGLE : transform_x_angle
                                 transform_x_angle = transform_x_angle > MAX_ANGLE? MAX_ANGLE : transform_x_angle
                                 const transform_x = this.img_width/2 + (this.img_width/2)*(transform_x_angle/MAX_ANGLE)
-                                var transform_y_angle = e.beta - this.initGyroBeta
+                                var transform_y_angle = this.initGyroBeta - e.beta
                                 transform_y_angle = transform_y_angle < -MAX_ANGLE? -MAX_ANGLE : transform_y_angle
                                 transform_y_angle = transform_y_angle > MAX_ANGLE? MAX_ANGLE : transform_y_angle
                                 const transform_y = this.img_width/2 + (this.img_width/2)*(transform_y_angle/MAX_ANGLE)
