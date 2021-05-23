@@ -150,6 +150,7 @@ class ParallaxBox {
                 console.log("getting somewhere")
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
+                        this.debug_count = 0
                         console.log("got response " + response)
                         if (response == "granted") {
                             window.addEventListener("deviceorientation", (e) => {
@@ -170,10 +171,12 @@ class ParallaxBox {
 
                                 document.getElementById("gamma").innerHTML = e.gamma
                                 document.getElementById("beta").innerHTML = e.beta
-                                document.getElementById("transform_x").innerHTML = e.transform_x
-                                document.getElementById("transform_y").innerHTML = e.transform_y
+                                document.getElementById("transform_x").innerHTML = transform_x
+                                document.getElementById("transform_y").innerHTML = transform_y
+                                document.getElementById("val").innerHTML = "got val " + this.debug_count
 
                                 this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+                                this.debug_count += 1
                             }, true);
                         }
                     })
