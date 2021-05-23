@@ -158,15 +158,20 @@ class ParallaxBox {
                                     this.initGyroGamma = e.gamma
                                     this.isGyroInitialized = true
                                 }
-                                const MAX_ANGLE = 20
+                                const MAX_ANGLE = 1
                                 var transform_x = e.beta - this.initGyroBeta
                                 transform_x = transform_x < -MAX_ANGLE? -MAX_ANGLE : transform_x
                                 transform_x = transform_x > MAX_ANGLE? MAX_ANGLE : transform_x
                                 transform_x = this.img_width/2 + this.img_width/2*(transform_x/MAX_ANGLE)
-                                var transform_y = e.beta - this.initGyroGamma
+                                var transform_y = e.gamma - this.initGyroGamma
                                 transform_y = transform_y < -MAX_ANGLE? -MAX_ANGLE : transform_y
                                 transform_y = transform_y > MAX_ANGLE? MAX_ANGLE : transform_y
                                 transform_y = this.img_width/2 + this.img_width/2*(transform_y/MAX_ANGLE)
+
+                                document.getElementById("gamma").innerHTML = e.gamma
+                                document.getElementById("beta").innerHTML = e.beta
+                                document.getElementById("transform_x").innerHTML = e.transform_x
+                                document.getElementById("transform_y").innerHTML = e.transform_y
 
                                 this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
                             }, true);
