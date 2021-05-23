@@ -5,7 +5,7 @@ function animate() {
 
 old_log = console.log;
 new_log = document.getElementById("error")
-console.log = function(message) {
+console.log = function (message) {
     if (typeof message == "object") {
         new_log.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />'
     } else {
@@ -26,7 +26,7 @@ class ParallaxBox {
         this.num_images += 1
         var parallax_img = document.createElement("img")
         parallax_img.src = img_src
-        parallax_img.style.transform = `translateZ(${this.LAYER_DEPTH*this.num_images}px)`
+        parallax_img.style.transform = `translateZ(${this.LAYER_DEPTH * this.num_images}px)`
         this.parallax_box.appendChild(parallax_img)
     }
     init(action) {
@@ -62,7 +62,7 @@ class ParallaxBox {
     updateWidthRelatedStuff() {
         this.parallax_box.style.perspective = `${this.img_width * 1.5}px`
         if (!this.parallax_box.style.perspectiveOrigin) {
-            this.parallax_box.style.perspectiveOrigin = `${this.img_width/2}px ${this.img_width/2}px`;
+            this.parallax_box.style.perspectiveOrigin = `${this.img_width / 2}px ${this.img_width / 2}px`;
         }
         this.tween.onUpdate(() => {
             var transform_x = this.img_width / 2 + (this.img_width / 2) * Math.sin(this.angles.x * Math.PI / 180)
@@ -118,6 +118,26 @@ class ParallaxBox {
         this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
     }
 
+    deviceMotionHandler(beta, gamma) {
+        if (!this.isGyroInitialized) {
+            this.initGyroBeta = beta
+            this.initGyroGamma = gamma
+            this.isGyroInitialized = true
+        }
+        const MAX_ANGLE = 40
+        var transform_x_angle = this.initGyroGamma - gamma
+        transform_x_angle = transform_x_angle < -MAX_ANGLE ? -MAX_ANGLE : transform_x_angle
+        transform_x_angle = transform_x_angle > MAX_ANGLE ? MAX_ANGLE : transform_x_angle
+        const transform_x = this.img_width / 2 + (this.img_width / 2) * (transform_x_angle / MAX_ANGLE)
+        var transform_y_angle = this.initGyroBeta - beta
+        transform_y_angle = transform_y_angle < -MAX_ANGLE ? -MAX_ANGLE : transform_y_angle
+        transform_y_angle = transform_y_angle > MAX_ANGLE ? MAX_ANGLE : transform_y_angle
+        const transform_y = this.img_width / 2 + (this.img_width / 2) * (transform_y_angle / MAX_ANGLE)
+
+        this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+        this.parallax_box.style.transition = '0s'
+    }
+
     setupInteractiveEvents() {
         window.addEventListener("mousedown", (e) => {
             this.startPoint(e.clientX, e.clientY)
@@ -145,43 +165,13 @@ class ParallaxBox {
         })
         const btn = document.getElementById("request")
         btn.addEventListener("click", () => {
-            console.log("click gyro")
             if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
-                console.log("getting somewhere")
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
-                        this.debug_count = 0
                         console.log("got response " + response)
                         if (response == "granted") {
                             window.addEventListener("deviceorientation", (e) => {
-                                if (!this.isGyroInitialized) {
-                                    this.initGyroBeta = e.beta
-                                    this.initGyroGamma = e.gamma
-                                    this.isGyroInitialized = true
-                                }
-                                const MAX_ANGLE = 40
-                                var transform_x_angle = this.initGyroGamma - e.gamma
-                                transform_x_angle = transform_x_angle < -MAX_ANGLE? -MAX_ANGLE : transform_x_angle
-                                transform_x_angle = transform_x_angle > MAX_ANGLE? MAX_ANGLE : transform_x_angle
-                                const transform_x = this.img_width/2 + (this.img_width/2)*(transform_x_angle/MAX_ANGLE)
-                                var transform_y_angle = this.initGyroBeta - e.beta
-                                transform_y_angle = transform_y_angle < -MAX_ANGLE? -MAX_ANGLE : transform_y_angle
-                                transform_y_angle = transform_y_angle > MAX_ANGLE? MAX_ANGLE : transform_y_angle
-                                const transform_y = this.img_width/2 + (this.img_width/2)*(transform_y_angle/MAX_ANGLE)
-
-                                // document.getElementById("gamma").innerHTML = e.gamma
-                                // document.getElementById("beta").innerHTML = e.beta
-                                // document.getElementById("initgamma").innerHTML = this.initGyroGamma
-                                // document.getElementById("initbeta").innerHTML = this.initGyroBeta
-                                // document.getElementById("transform_x_angle").innerHTML = transform_x_angle
-                                // document.getElementById("transform_y_angle").innerHTML = transform_y_angle
-                                // document.getElementById("transform_x").innerHTML = transform_x
-                                // document.getElementById("transform_y").innerHTML = transform_y
-                                document.getElementById("val").innerHTML = "got val " + this.debug_count
-
-                                this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
-                                this.parallax_box.style.transition = '0s'
-                                this.debug_count += 1
+                                this.deviceMotionHandler(e.beta, e.gamma)
                             }, true);
                         }
                     })
