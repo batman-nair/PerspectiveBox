@@ -169,17 +169,18 @@ class ParallaxBox {
                                 transform_y_angle = transform_y_angle > MAX_ANGLE? MAX_ANGLE : transform_y_angle
                                 const transform_y = this.img_width/2 + (this.img_width/2)*(transform_y_angle/MAX_ANGLE)
 
-                                document.getElementById("gamma").innerHTML = e.gamma
-                                document.getElementById("beta").innerHTML = e.beta
-                                document.getElementById("initgamma").innerHTML = this.initGyroGamma
-                                document.getElementById("initbeta").innerHTML = this.initGyroBeta
-                                document.getElementById("transform_x_angle").innerHTML = transform_x_angle
-                                document.getElementById("transform_y_angle").innerHTML = transform_y_angle
-                                document.getElementById("transform_x").innerHTML = transform_x
-                                document.getElementById("transform_y").innerHTML = transform_y
-                                document.getElementById("val").innerHTML = "got val " + this.debug_count
+                                // document.getElementById("gamma").innerHTML = e.gamma
+                                // document.getElementById("beta").innerHTML = e.beta
+                                // document.getElementById("initgamma").innerHTML = this.initGyroGamma
+                                // document.getElementById("initbeta").innerHTML = this.initGyroBeta
+                                // document.getElementById("transform_x_angle").innerHTML = transform_x_angle
+                                // document.getElementById("transform_y_angle").innerHTML = transform_y_angle
+                                // document.getElementById("transform_x").innerHTML = transform_x
+                                // document.getElementById("transform_y").innerHTML = transform_y
+                                // document.getElementById("val").innerHTML = "got val " + this.debug_count
 
                                 this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+                                this.parallax_box.style.transition = '0s'
                                 this.debug_count += 1
                             }, true);
                         }
