@@ -21,12 +21,13 @@ class ParallaxBox {
         this.parallax_box.classList.add('parallax_box')
         this.isPressed = false
         this.isGyroInitialized = false
+        this.image_list = []
     }
     addImage(img_src) {
         this.num_images += 1
         var parallax_img = document.createElement("img")
         parallax_img.src = img_src
-        parallax_img.style.transform = `translateZ(${this.LAYER_DEPTH * this.num_images}px)`
+        this.image_list.push(parallax_img)
         this.parallax_box.appendChild(parallax_img)
     }
     init(action) {
@@ -52,10 +53,16 @@ class ParallaxBox {
         })
     }
     calculateBoxWidth() {
-        const imgs = this.parallax_box.querySelectorAll("img")
+        this.img_height = 1;
         this.img_width = 1;
-        imgs.forEach((img, ii) => {
+        this.image_list.forEach((img, ii) => {
             this.img_width = this.img_width > img.width ? this.img_width : img.width
+            this.img_height = this.img_height > img.height ? this.img_height : img.height
+        })
+        this.parallax_box.style.height = `${this.img_height}`
+        const img_depth = this.img_width/50
+        this.image_list.forEach((img, ii) => {
+            img.style.transform = `translateZ(${img_depth*(ii+1)}px)`
         })
         console.log("Parallax box width:", this.img_width)
     }
@@ -149,18 +156,15 @@ class ParallaxBox {
             this.endPoint()
         })
         this.parallax_box.addEventListener("touchstart", (e) => {
-            console.log("got touch start")
             this.startPoint(e.touches[0].clientX, e.touches[0].clientY)
         })
         this.parallax_box.addEventListener("touchmove", (e) => {
-            console.log("got touch move")
             this.movePoint(e.touches[0].clientX, e.touches[0].clientY)
             e.preventDefault();
             e.stopPropagation();
             return false
         }, false)
         this.parallax_box.addEventListener("touchend", (e) => {
-            console.log("got touch end")
             this.endPoint()
         })
         const btn = document.getElementById("request")
