@@ -65,7 +65,7 @@ class ParallaxBox {
             this.img_width = this.img_width > img.width ? this.img_width : img.width
             this.img_height = this.img_height > img.height ? this.img_height : img.height
         })
-        this.parallax_box.style.height = `${this.img_height}`
+        this.parallax_box.style.height = `${this.img_height}px`
         const img_depth = this.img_width/50
         this.image_list.forEach((img, ii) => {
             img.style.transform = `translateZ(${img_depth*(ii+1)}px)`
@@ -121,7 +121,6 @@ class ParallaxBox {
 
             this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
         }
-        // console.log("mouse move", e.clientX, e.clientY)
     }
     endPoint() {
         this.isPressed = false
@@ -177,8 +176,11 @@ class ParallaxBox {
         this.parallax_box.addEventListener("touchend", (e) => {
             this.endPoint()
         })
-        const btn = document.getElementById("request")
-        btn.addEventListener("click", () => {
+        this.motion_button = document.createElement("div")
+        this.motion_button.innerHTML = "Enable motion control"
+        this.motion_button.id = "enable-motion"
+        this.parallax_box.parentElement.appendChild(this.motion_button)
+        this.motion_button.addEventListener("click", () => {
             if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
@@ -193,6 +195,7 @@ class ParallaxBox {
             } else {
                 alert("DeviceMotionEvent is not defined")
             }
+            this.motion_button.style.opacity = '0'
         })
     }
 }
