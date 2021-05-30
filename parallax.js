@@ -193,13 +193,15 @@ class ParallaxBox {
                     .then((response) => {
                         console.log("got response " + response)
                         if (response == "granted") {
-                            this.is_motion_enabled = True
+                            this.is_motion_enabled = true
                             window.addEventListener("deviceorientation", (e) => {
                                 this.deviceMotionHandler(e.beta, e.gamma)
                             }, true);
                         }
                     })
-                    .catch(console.log)
+                    .catch((err) => {
+                        console.log('Error when getting motion permission', err)
+                    })
             } else {
                 alert("DeviceMotionEvent is not defined")
             }
