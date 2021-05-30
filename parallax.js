@@ -28,6 +28,7 @@ class ParallaxBox {
         this.isPressed = false
         this.isGyroInitialized = false
         this.image_list = []
+        this.is_motion_enabled = false
     }
     addImage(img_src) {
         this.num_images += 1
@@ -56,6 +57,9 @@ class ParallaxBox {
                     console.log("Invalid init state", action)
                     break;
             }
+            this.image_list.forEach((img, ii) => {
+                img.style.opacity = '1'
+            })
         })
     }
     calculateBoxWidth() {
@@ -165,15 +169,18 @@ class ParallaxBox {
             return;
         }
         this.parallax_box.addEventListener("touchstart", (e) => {
+            if (this.is_motion_enabled) return;
             this.startPoint(e.touches[0].clientX, e.touches[0].clientY)
         })
         this.parallax_box.addEventListener("touchmove", (e) => {
+            if (this.is_motion_enabled) return;
             this.movePoint(e.touches[0].clientX, e.touches[0].clientY)
             e.preventDefault();
             e.stopPropagation();
             return false
         }, false)
         this.parallax_box.addEventListener("touchend", (e) => {
+            if (this.is_motion_enabled) return;
             this.endPoint()
         })
         this.motion_button = document.createElement("div")
@@ -184,6 +191,7 @@ class ParallaxBox {
             if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
+                        this.is_motion_enabled = True
                         console.log("got response " + response)
                         if (response == "granted") {
                             window.addEventListener("deviceorientation", (e) => {
@@ -195,7 +203,7 @@ class ParallaxBox {
             } else {
                 alert("DeviceMotionEvent is not defined")
             }
-            this.motion_button.style.opacity = '0'
+            this.motion_button.style.visibility = 'hidden'
         })
     }
 }
