@@ -19,19 +19,19 @@
 
 #enable-motion.before-click {
     padding: 20px;
-    position: fixed;
+    /* position: fixed;
     left: 50%;
-    transform: translateX(-50%);
+    bottom: 10%;
+    transform: translateX(-50%); */
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: 0.2s;
     transition-timing-function: ease-out;
-    bottom: 10%;
     opacity: 1;
 }
 
 #enable-motion.after-click {
-    bottom: 9%;
+    /* bottom: 9%; */
     opacity: 0;
 }
 
