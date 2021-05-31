@@ -196,6 +196,7 @@ class ParallaxBox {
                     .then((response) => {
                         console.log("got response " + response)
                         if (response == "granted") {
+                            console.log("add device orientation listener")
                             window.addEventListener("deviceorientation", (e) => {
                                 if (!this.is_touched) {
                                     this.deviceMotionHandler(e.beta, e.gamma)
