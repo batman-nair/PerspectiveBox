@@ -9,15 +9,15 @@ function animate() {
     TWEEN.update()
 }
 
-// old_log = console.log;
-// new_log = document.getElementById("error")
-// console.log = function (message) {
-//     if (typeof message == "object") {
-//         new_log.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />'
-//     } else {
-//         new_log.innerHTML += message + '<br />'
-//     }
-// }
+old_log = console.log;
+new_log = document.getElementById("error")
+console.log = function (message) {
+    if (typeof message == "object") {
+        new_log.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />'
+    } else {
+        new_log.innerHTML += message + '<br />'
+    }
+}
 
 class ParallaxBox {
     MAX_ANGLE_PERCENT = 0.8
