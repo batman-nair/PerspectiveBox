@@ -140,6 +140,7 @@ class ParallaxBox {
             this.initGyroBeta = beta
             this.initGyroGamma = gamma
             this.isGyroInitialized = true
+            console.log("gyro initialized")
         }
         const MAX_ANGLE = 40
         var transform_x_angle = this.initGyroGamma - gamma
@@ -180,6 +181,7 @@ class ParallaxBox {
             return false
         }, false)
         this.parallax_box.addEventListener("touchend", (e) => {
+            console.log("is touched now false")
             this.is_touched = false
             this.endPoint()
         })
