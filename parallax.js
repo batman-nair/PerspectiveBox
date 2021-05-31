@@ -188,7 +188,7 @@ class ParallaxBox {
         this.motion_button.innerHTML = "Enable motion control"
         this.motion_button.id = "enable-motion"
         this.motion_button.classList.add('before-click')
-        this.parallax_box.parentElement.appendChild(this.motion_button)
+        document.querySelector('body').appendChild(this.motion_button)
         var enable_motion_click_handler = () => {
             if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
                 DeviceMotionEvent.requestPermission()
