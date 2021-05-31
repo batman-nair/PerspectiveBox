@@ -196,7 +196,7 @@ class ParallaxBox {
                     .then((response) => {
                         console.log("got response " + response)
                         if (response == "granted") {
-                            console.log("add device orientation listener")
+                            console.log("add device orientation listener", window, window.addEventListener)
                             window.addEventListener("deviceorientation", (e) => {
                                 console.log("device orientation listener triggered")
                                 if (!this.is_touched) {
