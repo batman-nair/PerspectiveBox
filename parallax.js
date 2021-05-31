@@ -28,7 +28,7 @@ class ParallaxBox {
         this.isPressed = false
         this.isGyroInitialized = false
         this.image_list = []
-        this.is_motion_enabled = false
+        this.is_touched = false
     }
     addImage(img_src) {
         this.num_images += 1
@@ -170,18 +170,17 @@ class ParallaxBox {
             return;
         }
         this.parallax_box.addEventListener("touchstart", (e) => {
-            if (this.is_motion_enabled) return;
+            this.is_touched = true
             this.startPoint(e.touches[0].clientX, e.touches[0].clientY)
         })
         this.parallax_box.addEventListener("touchmove", (e) => {
-            if (this.is_motion_enabled) return;
             this.movePoint(e.touches[0].clientX, e.touches[0].clientY)
             e.preventDefault();
             e.stopPropagation();
             return false
         }, false)
         this.parallax_box.addEventListener("touchend", (e) => {
-            if (this.is_motion_enabled) return;
+            this.is_touched = false
             this.endPoint()
         })
         this.motion_button = document.createElement("div")
@@ -195,10 +194,11 @@ class ParallaxBox {
                     .then((response) => {
                         console.log("got response " + response)
                         if (response == "granted") {
-                            this.is_motion_enabled = true
                             window.addEventListener("deviceorientation", (e) => {
-                                this.deviceMotionHandler(e.beta, e.gamma)
-                            }, true);
+                                if (!this.is_touched) {
+                                    this.deviceMotionHandler(e.beta, e.gamma)
+                                }
+                            });
                         }
                     })
                     .catch((err) => {
