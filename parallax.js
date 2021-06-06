@@ -27,6 +27,7 @@ class ParallaxBox {
         this.parallax_box.classList.add('parallax_box')
         this.isPressed = false
         this.isGyroInitialized = false
+        this.isInteractiveSetup = false
         this.image_list = []
         this.is_touched = false
         this.MAX_ROTATE = 15
@@ -38,6 +39,13 @@ class ParallaxBox {
         parallax_img.src = img_src
         this.image_list.push(parallax_img)
         this.parallax_box.appendChild(parallax_img)
+    }
+    reset() {
+        this.num_images = 0
+        this.image_list = []
+        this.parallax_box.innerHTML = ""
+        this.img_width = 1
+        this.img_height = 1
     }
     init(action) {
         imagesLoaded(this.parallax_box, () => {
@@ -67,6 +75,8 @@ class ParallaxBox {
     calculateBoxWidth() {
         this.img_height = 1;
         this.img_width = 1;
+        this.parallax_box.style.height = `auto`
+        this.parallax_box.style.width = `auto`
         this.image_list.forEach((img, ii) => {
             this.img_width = this.img_width > img.width ? this.img_width : img.width
             this.img_height = this.img_height > img.height ? this.img_height : img.height
@@ -157,6 +167,10 @@ class ParallaxBox {
     }
 
     setupInteractiveEvents() {
+        if (this.isInteractiveSetup) {
+            return;
+        }
+        this.isInteractiveSetup = true
         window.addEventListener("mousedown", (e) => {
             this.startPoint(e.clientX, e.clientY)
         })

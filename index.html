@@ -22,6 +22,37 @@
         .container {
             margin: 50px auto;
         }
+
+        #parallax_box {
+            margin: 30px auto;
+        }
+
+        #image-grid {
+            margin: 30px auto;
+            column-count: 5;
+            column-gap: 20px;
+        }
+        @media (max-width: 1200px) {
+            #image-grid {
+                column-count: 4;
+            }
+        }
+        @media (max-width: 1000px) {
+            #image-grid {
+                column-count: 3;
+            }
+        }
+        @media (max-width: 800px) {
+            #image-grid {
+                column-count: 2;
+            }
+        }
+
+        #image-grid img {
+            margin: 20px auto;
+            width: 100%;
+            height: auto;
+        }
     </style>
 
     <p id="error"></p>
@@ -33,6 +64,9 @@
         </div>
         <div id="parallax_box">
         </div>
+
+        <div id="image-grid">
+        </div>
     </div>
 
     <script src="bootstrap/bootstrap.min.js"></script>
@@ -42,14 +76,43 @@
     <script>
         pb = new ParallaxBox("parallax_box")
 
-        pb.addImage("images2/6.png")
-        pb.addImage("images2/5.png")
-        pb.addImage("images2/4.png")
-        pb.addImage("images2/3.png")
-        pb.addImage("images2/2.png")
-        pb.addImage("images2/1.png")
+        pb.addImage("images/6.png")
+        pb.addImage("images/5.png")
+        pb.addImage("images/4.png")
+        pb.addImage("images/3.png")
+        pb.addImage("images/2.png")
+        pb.addImage("images/1.png")
 
         pb.init("mouse")
+
+        var img_map = []
+        img_map.push(["images/3.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
+        img_map.push(["images2/3.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
+        img_map.push(["images/3.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
+        img_map.push(["images2/3.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
+        img_map.push(["images2/3.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
+        img_map.push(["images/3.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
+        img_map.push(["images/3.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
+        img_map.push(["images/3.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
+        img_map.push(["images2/3.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
+        img_map.push(["images2/3.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
+
+        const img_grid = document.getElementById("image-grid")
+        img_map.forEach(elements => {
+            const preview_img = elements[0]
+            const img_list = elements[1]
+            img_obj = document.createElement("img")
+            img_obj.classList.add("shadow")
+            img_obj.src = preview_img
+            img_obj.addEventListener("click", () => {
+                pb.reset()
+                img_list.forEach(img_src => {
+                    pb.addImage(img_src)
+                })
+                pb.init("mouse")
+            })
+            img_grid.appendChild(img_obj)
+        });
     </script>
 </body>
 
