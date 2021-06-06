@@ -29,6 +29,7 @@ class ParallaxBox {
         this.isGyroInitialized = false
         this.image_list = []
         this.is_touched = false
+        this.MAX_ROTATE = 15
     }
     addImage(img_src) {
         this.num_images += 1
@@ -78,12 +79,15 @@ class ParallaxBox {
         console.log("Parallax box width:", this.img_width)
     }
     updatePerspective(norm_x=0, norm_y=0) {
-        const MAX_ROTATE = 15
         norm_x = Math.min(Math.max(norm_x, -1), 1)
         norm_y = Math.min(Math.max(norm_y, -1), 1)
-        const transform_x = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_x
-        const transform_y = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_y
-        this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+        const rotate_x = this.MAX_ROTATE * norm_y
+        const rotate_y = -this.MAX_ROTATE * norm_x
+        this.parallax_box.style.transform = `rotateX(${rotate_x}deg) rotateY(${rotate_y}deg)`;
+        // const transform_x = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_x
+        // const transform_y = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_y
+        // this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+        this.parallax_box.style.perspectiveOrigin = '50% 50%'
     }
     updateWidthRelatedStuff() {
         this.parallax_box.style.perspective = `${this.img_width * 1.5}px`
