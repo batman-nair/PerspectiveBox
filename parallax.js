@@ -30,6 +30,7 @@ class ParallaxBox {
         this.image_list = []
         this.is_touched = false
         this.MAX_ROTATE = 15
+        this.ROTATE_MULTI= 3
     }
     addImage(img_src) {
         this.num_images += 1
@@ -79,6 +80,8 @@ class ParallaxBox {
         console.log("Parallax box width:", this.img_width)
     }
     updatePerspective(norm_x=0, norm_y=0) {
+        norm_x = norm_x * this.ROTATE_MULTI
+        norm_y = norm_y * this.ROTATE_MULTI
         norm_x = Math.min(Math.max(norm_x, -1), 1)
         norm_y = Math.min(Math.max(norm_y, -1), 1)
         const rotate_x = this.MAX_ROTATE * norm_y
@@ -164,6 +167,7 @@ class ParallaxBox {
             this.endPoint()
         })
         if (!window.mobileAndTabletCheck()) {
+            this.ROTATE_MULTI = 2
             this.parallax_box.style.pointerEvents = 'none';
             return;
         }
