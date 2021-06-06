@@ -77,16 +77,23 @@ class ParallaxBox {
         })
         console.log("Parallax box width:", this.img_width)
     }
+    updatePerspective(norm_x=0, norm_y=0) {
+        const MAX_ROTATE = 15
+        norm_x = Math.min(Math.max(norm_x, -1), 1)
+        norm_y = Math.min(Math.max(norm_y, -1), 1)
+        const transform_x = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_x
+        const transform_y = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_y
+        this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+    }
     updateWidthRelatedStuff() {
         this.parallax_box.style.perspective = `${this.img_width * 1.5}px`
         if (!this.parallax_box.style.perspectiveOrigin) {
-            this.parallax_box.style.perspectiveOrigin = `${this.img_width / 2}px ${this.img_width / 2}px`;
+            this.updatePerspective()
         }
         this.tween.onUpdate(() => {
-            var transform_x = this.img_width / 2 + this.MAX_ANGLE_PERCENT * (this.img_width / 2) * Math.sin(this.angles.x * Math.PI / 180)
-            var transform_y = this.img_width / 2 + this.MAX_ANGLE_PERCENT * (this.img_width / 2) * Math.cos(this.angles.y * Math.PI / 180)
-
-            this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+            var transform_x = Math.sin(this.angles.x * Math.PI / 180)
+            var transform_y = Math.cos(this.angles.y * Math.PI / 180)
+            this.updatePerspective(transform_x, transform_y)
         })
     }
     setupAnimation() {
@@ -115,24 +122,17 @@ class ParallaxBox {
     }
     movePoint(xx, yy) {
         if (this.isPressed) {
-            const dist_x = this.mouseStartPoint[0] - xx
-            const dist_y = this.mouseStartPoint[1] - yy
-            var transform_x = this.img_width / 2 + dist_x
-            var transform_y = this.img_width / 2 + dist_y
-            transform_x = transform_x > this.MAX_ANGLE_PERCENT * this.img_width ? this.MAX_ANGLE_PERCENT * this.img_width : transform_x
-            transform_y = transform_y > this.MAX_ANGLE_PERCENT * this.img_width ? this.MAX_ANGLE_PERCENT * this.img_width : transform_y
-            transform_x = transform_x < (1-this.MAX_ANGLE_PERCENT)*this.img_width ? (1-this.MAX_ANGLE_PERCENT)*this.img_width : transform_x
-            transform_y = transform_y < (1-this.MAX_ANGLE_PERCENT)*this.img_width ? (1-this.MAX_ANGLE_PERCENT)*this.img_width : transform_y
-
-            this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+            const disp_x = this.mouseStartPoint[0] - xx
+            const transform_x = disp_x / this.img_width
+            const disp_y = this.mouseStartPoint[1] - yy
+            const transform_y = disp_y / this.img_width
+            this.updatePerspective(transform_x, transform_y)
         }
     }
     endPoint() {
         this.isPressed = false
-        const transform_x = this.img_width / 2
-        const transform_y = this.img_width / 2
         this.parallax_box.style.transition = '0.5s'
-        this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+        this.updatePerspective()
     }
 
     deviceMotionHandler(beta, gamma) {
@@ -143,16 +143,9 @@ class ParallaxBox {
             // console.log("gyro initialized")
         }
         const MAX_ANGLE = 40
-        var transform_x_angle = this.initGyroGamma - gamma
-        transform_x_angle = transform_x_angle < -MAX_ANGLE ? -MAX_ANGLE : transform_x_angle
-        transform_x_angle = transform_x_angle > MAX_ANGLE ? MAX_ANGLE : transform_x_angle
-        const transform_x = this.img_width / 2 + this.MAX_ANGLE_PERCENT * (this.img_width / 2) * (transform_x_angle / MAX_ANGLE)
-        var transform_y_angle = this.initGyroBeta - beta
-        transform_y_angle = transform_y_angle < -MAX_ANGLE ? -MAX_ANGLE : transform_y_angle
-        transform_y_angle = transform_y_angle > MAX_ANGLE ? MAX_ANGLE : transform_y_angle
-        const transform_y = this.img_width / 2 + this.MAX_ANGLE_PERCENT * (this.img_width / 2) * (transform_y_angle / MAX_ANGLE)
-
-        this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+        const transform_x = (this.initGyroGamma - gamma) / MAX_ANGLE
+        const transform_y = (this.initGyroBeta - beta) / MAX_ANGLE
+        this.updatePerspective(transform_x, transform_y)
         this.parallax_box.style.transition = '0s'
     }
 
