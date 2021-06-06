@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PerspectiveBox</title>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="parallax.css">
 </head>
+
 <body>
     <style>
         body {
             text-align: center;
             font-family: 'Roboto', sans-serif;
         }
-        .header {
-            margin-bottom: 50px;
-        }
-        .header h1 {
-            font-size: 2.5em;
-        }
+
         .container {
             margin: 50px auto;
-            width: 90%;
         }
     </style>
 
@@ -32,26 +29,28 @@
     <div class="container">
         <div class="header">
             <h1>ImgInDepth</h1>
-            <p>Add depth to your illustrations</p>
+            <p class="lead">Add depth to your illustrations</p>
         </div>
         <div id="parallax_box">
         </div>
     </div>
 
-   <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.7.0/Tween.js"></script>
-   <script src="parallax.js"></script>
-   <script>
-       pb = new ParallaxBox("parallax_box")
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.7.0/Tween.js"></script>
+    <script src="parallax.js"></script>
+    <script>
+        pb = new ParallaxBox("parallax_box")
 
-       pb.addImage("images2/6.png")
-       pb.addImage("images2/5.png")
-       pb.addImage("images2/4.png")
-       pb.addImage("images2/3.png")
-       pb.addImage("images2/2.png")
-       pb.addImage("images2/1.png")
+        pb.addImage("images2/6.png")
+        pb.addImage("images2/5.png")
+        pb.addImage("images2/4.png")
+        pb.addImage("images2/3.png")
+        pb.addImage("images2/2.png")
+        pb.addImage("images2/1.png")
 
-       pb.init("mouse")
-   </script>
+        pb.init("mouse")
+    </script>
 </body>
+
 </html>
