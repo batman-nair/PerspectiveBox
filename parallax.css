@@ -2,6 +2,7 @@
 
 .parallax_box_parent {
     position: relative;
+    transform-style: flat;
 }
 
 .parallax_box {
