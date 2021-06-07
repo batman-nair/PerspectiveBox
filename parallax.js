@@ -22,9 +22,12 @@ console.log = function (message) {
 class ParallaxBox {
     MAX_ANGLE_PERCENT = 1
     constructor(box_id) {
-        this.parallax_box = document.getElementById(box_id)
-        this.num_images = 0
+        this.parallax_box_parent = document.getElementById(box_id)
+        this.parallax_box_parent.classList.add("parallax_box_parent")
+        this.parallax_box = document.createElement("div")
+        this.parallax_box_parent.appendChild(this.parallax_box)
         this.parallax_box.classList.add('parallax_box')
+        this.num_images = 0
         this.isPressed = false
         this.isGyroInitialized = false
         this.isInteractiveSetup = false
@@ -133,7 +136,7 @@ class ParallaxBox {
     }
     startPoint(xx, yy) {
         this.mouseStartPoint = [xx, yy]
-        this.parallax_box.style.transition = '0s'
+        this.parallax_box.style.transitionDuration = '0s'
         this.isPressed = true
         // console.log("mouse down", e.clientX, e.clientY)
     }
@@ -148,7 +151,7 @@ class ParallaxBox {
     }
     endPoint() {
         this.isPressed = false
-        this.parallax_box.style.transition = '0.5s'
+        this.parallax_box.style.transitionDuration = '0.4s'
         this.updatePerspective()
     }
 
@@ -163,7 +166,7 @@ class ParallaxBox {
         const transform_x = (this.initGyroGamma - gamma) / MAX_ANGLE
         const transform_y = (this.initGyroBeta - beta) / MAX_ANGLE
         this.updatePerspective(transform_x, transform_y)
-        this.parallax_box.style.transition = '0s'
+        this.parallax_box.style.transitionDuration = '0s'
     }
 
     setupInteractiveEvents() {
@@ -201,10 +204,10 @@ class ParallaxBox {
             this.endPoint()
         })
         this.motion_button = document.createElement("div")
-        this.motion_button.innerHTML = "Enable motion control"
+        this.motion_button.innerHTML = "<span><i class=\"bi bi-phone\"></i> Enable Motion Control</span>"
         this.motion_button.id = "enable-motion"
         this.motion_button.classList.add('before-click')
-        this.parallax_box.parentElement.appendChild(this.motion_button)
+        this.parallax_box_parent.appendChild(this.motion_button)
         var enable_motion_click_handler = () => {
             if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
                 DeviceMotionEvent.requestPermission()

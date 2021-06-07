@@ -1,12 +1,16 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
+.parallax_box_parent {
+    position: relative;
+}
 
 .parallax_box {
     display: grid;
-    /* height: 100%; */
     transform-style: preserve-3d;
     position: relative;
     /* animation: automove 4s infinite; */
-    /* perspective-origin: center; */
     margin: 20px auto;
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .parallax_box img {
     max-width: 100%;
@@ -18,20 +22,22 @@
 }
 
 #enable-motion.before-click {
-    padding: 20px;
-    /* position: fixed;
+    padding: 14px;
+    position: absolute;
     left: 50%;
-    bottom: 10%;
-    transform: translateX(-50%); */
-    border-radius: 5px;
+    bottom: -1%;
+    transform: translateX(-50%);
+    border-radius: 1em;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    transition: 0.2s;
-    transition-timing-function: ease-out;
+    transition: 0.2s ease-in-out;
+    background-color: #ffffff;
+    font-size: 0.8em;
     opacity: 1;
+    z-index: 10;
 }
 
 #enable-motion.after-click {
-    /* bottom: 9%; */
+    bottom: -3%;
     opacity: 0;
 }
 
