@@ -27,7 +27,8 @@
     position: absolute;
     left: 50%;
     bottom: -1%;
-    transform: translateX(-50%);
+    /* translateZ to fix issue in safari for z-index lost with 3d transforms */
+    transform: translateZ(1000px) translateX(-50%);
     border-radius: 1em;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: 0.2s ease-in-out;
