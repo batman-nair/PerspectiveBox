@@ -9,15 +9,15 @@ function animate() {
     TWEEN.update()
 }
 
-old_log = console.log;
-new_log = document.getElementById("error")
-console.log = function (message) {
-    if (typeof message == "object") {
-        new_log.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />'
-    } else {
-        new_log.innerHTML += message + '<br />'
-    }
-}
+// old_log = console.log;
+// new_log = document.getElementById("error")
+// console.log = function (message) {
+//     if (typeof message == "object") {
+//         new_log.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />'
+//     } else {
+//         new_log.innerHTML += message + '<br />'
+//     }
+// }
 
 class ParallaxBox {
     MAX_ANGLE_PERCENT = 1
@@ -34,7 +34,6 @@ class ParallaxBox {
         this.image_list = []
         this.is_touched = false
         this.MAX_ROTATE = 15
-        this.ROTATE_MULTI= 3
     }
     addImage(img_src) {
         this.num_images += 1
@@ -92,9 +91,9 @@ class ParallaxBox {
         })
         console.log("Parallax box width:", this.img_width)
     }
-    updatePerspective(norm_x=0, norm_y=0) {
-        norm_x = norm_x * this.ROTATE_MULTI
-        norm_y = norm_y * this.ROTATE_MULTI
+    updatePerspective(norm_x=0, norm_y=0, multiplier=2) {
+        norm_x = norm_x * multiplier
+        norm_y = norm_y * multiplier
         norm_x = Math.min(Math.max(norm_x, -1), 1)
         norm_y = Math.min(Math.max(norm_y, -1), 1)
         const rotate_x = this.MAX_ROTATE * norm_y
@@ -113,7 +112,7 @@ class ParallaxBox {
         this.tween.onUpdate(() => {
             var transform_x = Math.sin(this.angles.x * Math.PI / 180)
             var transform_y = Math.cos(this.angles.y * Math.PI / 180)
-            this.updatePerspective(transform_x, transform_y)
+            this.updatePerspective(transform_x, transform_y, 1)
         })
     }
     setupAnimation() {
@@ -165,7 +164,7 @@ class ParallaxBox {
         const MAX_ANGLE = 40
         const transform_x = (this.initGyroGamma - gamma) / MAX_ANGLE
         const transform_y = (this.initGyroBeta - beta) / MAX_ANGLE
-        this.updatePerspective(transform_x, transform_y)
+        this.updatePerspective(transform_x, transform_y, 1)
         this.parallax_box.style.transitionDuration = '0s'
     }
 
@@ -184,7 +183,6 @@ class ParallaxBox {
             this.endPoint()
         })
         if (!window.mobileAndTabletCheck()) {
-            this.ROTATE_MULTI = 2
             this.parallax_box.style.pointerEvents = 'none';
             return;
         }
