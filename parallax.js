@@ -208,24 +208,27 @@ class ParallaxBox {
         this.motion_button.id = "enable-motion"
         this.motion_button.classList.add('before-click')
         this.parallax_box_parent.appendChild(this.motion_button)
+        const orientationHandler = (event) => {
+            if (!this.is_touched) {
+                this.deviceMotionHandler(event.beta, event.gamma)
+            }
+        }
         var enable_motion_click_handler = () => {
-            try {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                // Handle iOS 13+ devices.
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
                         console.log("got response " + response)
                         if (response == "granted") {
-                            window.addEventListener("deviceorientation", (e) => {
-                                if (!this.is_touched) {
-                                    this.deviceMotionHandler(e.beta, e.gamma)
-                                }
-                            });
+                            window.addEventListener("deviceorientation", orientationHandler)
                         }
                     })
                     .catch((err) => {
                         console.log('Error when getting motion permission', err)
                     })
-            } catch(error) {
-                console.log("DeviceMotionEvent is not defined ", error)
+            } else {
+                // Handle regular non iOS 13+ devices.
+                window.addEventListener("deviceorientation", orientationHandler)
             }
             this.motion_button.classList.add('after-click')
             this.motion_button.removeEventListener("click", enable_motion_click_handler)
