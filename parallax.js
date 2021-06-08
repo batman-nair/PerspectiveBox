@@ -209,7 +209,7 @@ class ParallaxBox {
         this.motion_button.classList.add('before-click')
         this.parallax_box_parent.appendChild(this.motion_button)
         var enable_motion_click_handler = () => {
-            if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
+            try {
                 DeviceMotionEvent.requestPermission()
                     .then((response) => {
                         console.log("got response " + response)
@@ -224,8 +224,8 @@ class ParallaxBox {
                     .catch((err) => {
                         console.log('Error when getting motion permission', err)
                     })
-            } else {
-                alert("DeviceMotionEvent is not defined")
+            } catch(error) {
+                console.log("DeviceMotionEvent is not defined ", error)
             }
             this.motion_button.classList.add('after-click')
             this.motion_button.removeEventListener("click", enable_motion_click_handler)
