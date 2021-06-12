@@ -19,14 +19,14 @@ function animate() {
 //     }
 // }
 
-class ParallaxBox {
+class PerspectiveBox {
     MAX_ANGLE_PERCENT = 1
     constructor(box_id) {
-        this.parallax_box_parent = document.getElementById(box_id)
-        this.parallax_box_parent.classList.add("parallax_box_parent")
-        this.parallax_box = document.createElement("div")
-        this.parallax_box_parent.appendChild(this.parallax_box)
-        this.parallax_box.classList.add('parallax_box')
+        this.perspective_box_parent = document.getElementById(box_id)
+        this.perspective_box_parent.classList.add("perspective_box_parent")
+        this.perspective_box = document.createElement("div")
+        this.perspective_box_parent.appendChild(this.perspective_box)
+        this.perspective_box.classList.add('perspective_box')
         this.num_images = 0
         this.isPressed = false
         this.isGyroInitialized = false
@@ -37,20 +37,20 @@ class ParallaxBox {
     }
     addImage(img_src) {
         this.num_images += 1
-        var parallax_img = document.createElement("img")
-        parallax_img.src = img_src
-        this.image_list.push(parallax_img)
-        this.parallax_box.appendChild(parallax_img)
+        var perspective_img = document.createElement("img")
+        perspective_img.src = img_src
+        this.image_list.push(perspective_img)
+        this.perspective_box.appendChild(perspective_img)
     }
     reset() {
         this.num_images = 0
         this.image_list = []
-        this.parallax_box.innerHTML = ""
+        this.perspective_box.innerHTML = ""
         this.img_width = 1
         this.img_height = 1
     }
     init(action) {
-        imagesLoaded(this.parallax_box, () => {
+        imagesLoaded(this.perspective_box, () => {
             this.calculateBoxWidth()
             this.setupAnimation()
             this.updateWidthRelatedStuff()
@@ -77,19 +77,19 @@ class ParallaxBox {
     calculateBoxWidth() {
         this.img_height = 1;
         this.img_width = 1;
-        this.parallax_box.style.height = `auto`
-        this.parallax_box.style.width = `auto`
+        this.perspective_box.style.height = `auto`
+        this.perspective_box.style.width = `auto`
         this.image_list.forEach((img, ii) => {
             this.img_width = this.img_width > img.width ? this.img_width : img.width
             this.img_height = this.img_height > img.height ? this.img_height : img.height
         })
-        this.parallax_box.style.height = `${this.img_height}px`
-        this.parallax_box.style.width = `${this.img_width}px`
+        this.perspective_box.style.height = `${this.img_height}px`
+        this.perspective_box.style.width = `${this.img_width}px`
         const img_depth = this.img_width/50
         this.image_list.forEach((img, ii) => {
             img.style.transform = `translateZ(${img_depth*(ii+1)}px) translateX(${-img.width/2}px)`
         })
-        console.log("Parallax box width:", this.img_width)
+        console.log("Perspective box width:", this.img_width)
     }
     updatePerspective(norm_x=0, norm_y=0, multiplier=2) {
         norm_x = norm_x * multiplier
@@ -98,15 +98,15 @@ class ParallaxBox {
         norm_y = Math.min(Math.max(norm_y, -1), 1)
         const rotate_x = this.MAX_ROTATE * norm_y
         const rotate_y = -this.MAX_ROTATE * norm_x
-        this.parallax_box.style.transform = `rotateX(${rotate_x}deg) rotateY(${rotate_y}deg)`;
+        this.perspective_box.style.transform = `rotateX(${rotate_x}deg) rotateY(${rotate_y}deg)`;
         // const transform_x = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_x
         // const transform_y = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_y
-        // this.parallax_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
-        this.parallax_box.style.perspectiveOrigin = '50% 50%'
+        // this.perspective_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
+        this.perspective_box.style.perspectiveOrigin = '50% 50%'
     }
     updateWidthRelatedStuff() {
-        this.parallax_box.style.perspective = `${this.img_width * 1.5}px`
-        if (!this.parallax_box.style.perspectiveOrigin) {
+        this.perspective_box.style.perspective = `${this.img_width * 1.5}px`
+        if (!this.perspective_box.style.perspectiveOrigin) {
             this.updatePerspective()
         }
         this.tween.onUpdate(() => {
@@ -135,7 +135,7 @@ class ParallaxBox {
     }
     startPoint(xx, yy) {
         this.mouseStartPoint = [xx, yy]
-        this.parallax_box.style.transitionDuration = '0s'
+        this.perspective_box.style.transitionDuration = '0s'
         this.isPressed = true
         // console.log("mouse down", e.clientX, e.clientY)
     }
@@ -150,7 +150,7 @@ class ParallaxBox {
     }
     endPoint() {
         this.isPressed = false
-        this.parallax_box.style.transitionDuration = '0.4s'
+        this.perspective_box.style.transitionDuration = '0.4s'
         this.updatePerspective()
     }
 
@@ -165,7 +165,7 @@ class ParallaxBox {
         const transform_x = (this.initGyroGamma - gamma) / MAX_ANGLE
         const transform_y = (this.initGyroBeta - beta) / MAX_ANGLE
         this.updatePerspective(transform_x, transform_y, 1)
-        this.parallax_box.style.transitionDuration = '0s'
+        this.perspective_box.style.transitionDuration = '0s'
     }
 
     setupInteractiveEvents() {
@@ -183,20 +183,20 @@ class ParallaxBox {
             this.endPoint()
         })
         if (!window.mobileAndTabletCheck()) {
-            this.parallax_box.style.pointerEvents = 'none';
+            this.perspective_box.style.pointerEvents = 'none';
             return;
         }
-        this.parallax_box.addEventListener("touchstart", (e) => {
+        this.perspective_box.addEventListener("touchstart", (e) => {
             this.is_touched = true
             this.startPoint(e.touches[0].clientX, e.touches[0].clientY)
         })
-        this.parallax_box.addEventListener("touchmove", (e) => {
+        this.perspective_box.addEventListener("touchmove", (e) => {
             this.movePoint(e.touches[0].clientX, e.touches[0].clientY)
             e.preventDefault();
             e.stopPropagation();
             return false
         }, false)
-        this.parallax_box.addEventListener("touchend", (e) => {
+        this.perspective_box.addEventListener("touchend", (e) => {
             // console.log("is touched now false")
             this.is_touched = false
             this.endPoint()
@@ -205,7 +205,7 @@ class ParallaxBox {
         this.motion_button.innerHTML = "<span><i class=\"bi bi-phone\"></i> Enable Motion Control</span>"
         this.motion_button.id = "enable-motion"
         this.motion_button.classList.add('before-click')
-        this.parallax_box_parent.appendChild(this.motion_button)
+        this.perspective_box_parent.appendChild(this.motion_button)
         const orientationHandler = (event) => {
             if (!this.is_touched) {
                 this.deviceMotionHandler(event.beta, event.gamma)

@@ -8,8 +8,8 @@
     <title>PerspectiveBox</title>
     <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="parallax.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="perspectivebox.css">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
             margin: 50px auto;
         }
 
-        #parallax_box {
+        #perspective_box {
             margin: 30px auto;
         }
 
@@ -32,16 +32,19 @@
             column-count: 5;
             column-gap: 20px;
         }
+
         @media (max-width: 1200px) {
             #image-grid {
                 column-count: 4;
             }
         }
+
         @media (max-width: 1000px) {
             #image-grid {
                 column-count: 3;
             }
         }
+
         @media (max-width: 800px) {
             #image-grid {
                 column-count: 2;
@@ -59,22 +62,25 @@
 
     <div class="container">
         <div class="header">
-            <h1>ImgInDepth</h1>
+            <h1>PerspectiveBox</h1>
             <p class="lead">Add depth to your illustrations</p>
+            <p class="fw-light">Try dragging the image</p>
         </div>
-        <div id="parallax_box">
+        <div id="perspective_box">
         </div>
 
+        <h3 class="fw-light">Other images to try it out on</h3>
         <div id="image-grid">
         </div>
     </div>
 
+
     <script src="bootstrap/bootstrap.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.7.0/Tween.js"></script>
-    <script src="parallax.js"></script>
+    <script src="perspectivebox.js"></script>
     <script>
-        pb = new ParallaxBox("parallax_box")
+        pb = new PerspectiveBox("perspective_box")
 
         pb.addImage("images/6.png")
         pb.addImage("images/5.png")
@@ -86,6 +92,7 @@
         pb.init("mouse")
 
         var img_map = []
+        // Images list
         img_map.push(["images/3.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
         img_map.push(["images2/3.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
         img_map.push(["images/3.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
