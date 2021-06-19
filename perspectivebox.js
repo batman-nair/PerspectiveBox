@@ -164,7 +164,7 @@ class PerspectiveBox {
         const MAX_ANGLE = 40
         const transform_x = (this.initGyroGamma - gamma) / MAX_ANGLE
         const transform_y = (this.initGyroBeta - beta) / MAX_ANGLE
-        this.updatePerspective(transform_x, transform_y, 1)
+        this.updatePerspective(transform_x, transform_y, 1.5)
         this.perspective_box.style.transitionDuration = '0s'
     }
 
