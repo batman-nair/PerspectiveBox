@@ -139,13 +139,14 @@ class PerspectiveBox {
         this.isPressed = true
         // console.log("mouse down", e.clientX, e.clientY)
     }
-    movePoint(xx, yy) {
+    movePoint(xx, yy, is_touch_move=false) {
         if (this.isPressed) {
             const disp_x = this.mouseStartPoint[0] - xx
             const transform_x = disp_x / this.img_width
             const disp_y = this.mouseStartPoint[1] - yy
             const transform_y = disp_y / this.img_width
-            this.updatePerspective(transform_x, transform_y)
+            const multiplier = is_touch_move? 3 : 2;
+            this.updatePerspective(transform_x, transform_y, multiplier)
         }
     }
     endPoint() {
@@ -191,7 +192,7 @@ class PerspectiveBox {
             this.startPoint(e.touches[0].clientX, e.touches[0].clientY)
         })
         this.perspective_box.addEventListener("touchmove", (e) => {
-            this.movePoint(e.touches[0].clientX, e.touches[0].clientY)
+            this.movePoint(e.touches[0].clientX, e.touches[0].clientY, true)
             e.preventDefault();
             e.stopPropagation();
             return false
