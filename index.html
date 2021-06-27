@@ -82,24 +82,36 @@
         pb.addImage("images/3.png")
         pb.addImage("images/2.png")
         pb.addImage("images/1.png")
+        pb.setCaption("by <a href='https://www.instagram.com/daps_nair/'>@daps_nair</a>")
 
-        pb.init("mouse")
+        pb.init()
 
         var img_map = []
         // Images list
-        img_map.push(["images/full.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
-        img_map.push(["images2/full.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
-        img_map.push(["images2/full.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
-        img_map.push(["images/full.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
-        img_map.push(["images/full.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
-        img_map.push(["images2/full.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
-        img_map.push(["images2/full.png", ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"]])
-        img_map.push(["images/full.png", ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"]])
+        img1 = [
+            "images/full.png",
+            ["images/6.png", "images/5.png", "images/4.png", "images/3.png", "images/2.png", "images/1.png"],
+            "by <a href='https://www.instagram.com/daps_nair/'>@daps_nair</a>",
+        ]
+        img2 = [
+            "images2/full.png",
+            ["images2/6.png", "images2/5.png", "images2/4.png", "images2/3.png", "images2/2.png", "images2/1.png"],
+            "by <a href='https://www.instagram.com/daps_nair/'>@daps_nair</a>",
+        ]
+        img_map.push(img1)
+        img_map.push(img2)
+        img_map.push(img2)
+        img_map.push(img1)
+        img_map.push(img1)
+        img_map.push(img2)
+        img_map.push(img2)
+        img_map.push(img1)
 
         const img_grid = document.getElementById("image-grid")
         img_map.forEach(elements => {
             const preview_img = elements[0]
             const img_list = elements[1]
+            const img_caption = elements[2]
             img_obj = document.createElement("img")
             img_obj.classList.add("shadow")
             img_obj.src = preview_img
@@ -108,7 +120,8 @@
                 img_list.forEach(img_src => {
                     pb.addImage(img_src)
                 })
-                pb.init("mouse")
+                pb.setCaption(img_caption)
+                pb.init()
             })
             img_grid.appendChild(img_obj)
         });

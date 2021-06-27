@@ -27,6 +27,10 @@ class PerspectiveBox {
         this.perspective_box = document.createElement("div")
         this.perspective_box_parent.appendChild(this.perspective_box)
         this.perspective_box.classList.add('perspective_box')
+        this.caption_text = document.createElement("p")
+        this.caption_text.classList.add('caption-text')
+        this.caption_text.innerHTML = "by <a href='https://batmannair.com/'>@batmannair.</a>"
+        this.perspective_box_parent.parentElement.insertBefore(this.caption_text, this.perspective_box_parent.nextSibling)
         this.num_images = 0
         this.isPressed = false
         this.isGyroInitialized = false
@@ -42,6 +46,9 @@ class PerspectiveBox {
         this.image_list.push(perspective_img)
         this.perspective_box.appendChild(perspective_img)
     }
+    setCaption(caption_str) {
+        this.caption_text.innerHTML = caption_str
+    }
     reset() {
         this.num_images = 0
         this.image_list = []
@@ -49,7 +56,7 @@ class PerspectiveBox {
         this.img_width = 1
         this.img_height = 1
     }
-    init(action) {
+    init(action="mouse") {
         imagesLoaded(this.perspective_box, () => {
             this.calculateBoxWidth()
             this.setupAnimation()

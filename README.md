@@ -4,6 +4,8 @@ Add depth to your illustrations. [Try it out!](batmannair.com/PerspectiveBox)
 
 Change perspective of the image by dragging the image. On tablets and phones motion control can be used for changing the perspective.
 
+If you are interested in adding/testing your illustrations, let me know, I'm interested to test too.
+
 ![Splash](./screencaps/Animation.gif)
 
 
@@ -11,7 +13,7 @@ Change perspective of the image by dragging the image. On tablets and phones mot
 
 Initialize PerspectiveBox object
 ```js
-pb = new PerspectiveBox("perspective_box")
+pb = new PerspectiveBox("<div id>")
 ```
 
 Add images layer by layer
@@ -21,10 +23,14 @@ pb.addImage("path_to_img2.png")
 pb.addImage("path_to_img3.png")
 ```
 
-Call the init function with "mouse" for touch controls. "anim" for auto animation.
+Call the init function finish up. Give argument "mouse" for click/touch/motion controls. "animation" for auto looping animation.
 ```js
-pb.init("mouse")
+pb.init()
 ```
+
+Set caption text with `setCaption`. This sets the target text as HTML itself so be careful of what is being set.
+```js
+pb.setCaption("by <a href='https://batmannair.com/'>@batmannair</a>")
 
 To change or use another image, call `reset`, re-add the images and re-call `init`.
 ```js
