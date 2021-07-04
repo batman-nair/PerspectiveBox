@@ -38,6 +38,8 @@ class PerspectiveBox {
         this.image_list = []
         this.is_touched = false
         this.MAX_ROTATE = 15
+        this.TOUCH_MULTIPLIER = 3
+        this.GYRO_MULTIPLIER = 2
     }
     addImage(img_src) {
         this.num_images += 1
@@ -142,7 +144,7 @@ class PerspectiveBox {
     }
     startPoint(xx, yy) {
         this.mouseStartPoint = [xx, yy]
-        this.perspective_box.style.transitionDuration = '0s'
+        this.perspective_box.style.transitionDuration = '0.01s'
         this.isPressed = true
         // console.log("mouse down", e.clientX, e.clientY)
     }
@@ -152,8 +154,7 @@ class PerspectiveBox {
             const transform_x = disp_x / this.img_width
             const disp_y = this.mouseStartPoint[1] - yy
             const transform_y = disp_y / this.img_width
-            const multiplier = is_touch_move? 3 : 2;
-            this.updatePerspective(transform_x, transform_y, multiplier)
+            this.updatePerspective(transform_x, transform_y, this.TOUCH_MULTIPLIER)
         }
     }
     endPoint() {
@@ -172,8 +173,8 @@ class PerspectiveBox {
         const MAX_ANGLE = 40
         const transform_x = (this.initGyroGamma - gamma) / MAX_ANGLE
         const transform_y = (this.initGyroBeta - beta) / MAX_ANGLE
-        this.updatePerspective(transform_x, transform_y, 1.5)
-        this.perspective_box.style.transitionDuration = '0s'
+        this.updatePerspective(transform_x, transform_y, this.GYRO_MULTIPLIER)
+        this.perspective_box.style.transitionDuration = '0.01s'
     }
 
     setupInteractiveEvents() {
