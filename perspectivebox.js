@@ -20,7 +20,6 @@ function animate() {
 // }
 
 class PerspectiveBox {
-    MAX_ANGLE_PERCENT = 1
     constructor(box_id) {
         this.perspective_box_parent = document.getElementById(box_id)
         this.perspective_box_parent.classList.add("perspective_box_parent")
@@ -108,9 +107,6 @@ class PerspectiveBox {
         const rotate_x = this.MAX_ROTATE * norm_y
         const rotate_y = -this.MAX_ROTATE * norm_x
         this.perspective_box.style.transform = `rotateX(${rotate_x}deg) rotateY(${rotate_y}deg)`;
-        // const transform_x = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_x
-        // const transform_y = this.img_width/2 + this.MAX_ANGLE_PERCENT * (this.img_width/2) * norm_y
-        // this.perspective_box.style.perspectiveOrigin = `${transform_x}px ${transform_y}px`;
         this.perspective_box.style.perspectiveOrigin = '50% 50%'
     }
     updateWidthRelatedStuff() {
