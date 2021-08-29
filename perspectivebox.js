@@ -94,8 +94,9 @@ class PerspectiveBox {
         this.perspective_box.style.height = `${this.img_height}px`
         this.perspective_box.style.width = `${this.img_width}px`
         const img_depth = this.img_width/50
+        const num_images = this.image_list.length
         this.image_list.forEach((img, ii) => {
-            img.style.transform = `translateZ(${img_depth*(ii+1)}px) translateX(${-img.width/2}px)`
+            img.style.transform = `translateZ(${-img_depth*((num_images - ii))}px) translateX(${-img.width/2}px)`
         })
         console.log("Perspective box width:", this.img_width)
     }
@@ -106,7 +107,7 @@ class PerspectiveBox {
         norm_y = Math.min(Math.max(norm_y, -1), 1)
         const rotate_x = this.MAX_ROTATE * norm_y
         const rotate_y = -this.MAX_ROTATE * norm_x
-        this.perspective_box.style.transform = `rotateX(${rotate_x}deg) rotateY(${rotate_y}deg)`;
+        this.perspective_box.style.transform = `rotateX(${-rotate_x}deg) rotateY(${-rotate_y}deg)`;
         this.perspective_box.style.perspectiveOrigin = '50% 50%'
     }
     updateWidthRelatedStuff() {
